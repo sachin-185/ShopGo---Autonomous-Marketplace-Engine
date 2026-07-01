@@ -1,0 +1,29 @@
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: mern_backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    env_file:
+      - ./backend/.env
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend_new
+      dockerfile: Dockerfile
+    container_name: mern_frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend_new:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    restart: unless-stopped
